@@ -4,7 +4,8 @@ import graphql.annotations.annotationTypes.GraphQLField;
 import graphql.annotations.annotationTypes.GraphQLName;
 import lombok.Data;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,7 +13,7 @@ import java.util.List;
 //@GraphQLName("toDo")
 @Entity
 @Table(name = "ToDo")
-public class ToDo {
+public class ToDo implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @GraphQLField

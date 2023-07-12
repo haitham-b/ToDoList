@@ -8,7 +8,7 @@ type ToDo {
     id: ID!
     title: String!
     description: String
-    subTasks : [SubTask]
+#    subTasks : [SubTask]
 }
 
 type SubTask {

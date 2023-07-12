@@ -2,6 +2,16 @@
 Sample TODO list app using Dropwizard, Graphql as API, and Postgres as storage
 
 # Running
+to check status of the schema, run in console:
+```
+java -jar target/ToDoList-1.0-SNAPSHOT.jar db status .\src\config\todo-list.yml
+```
+
+to create the schema, run in console:
+```
+java -jar target/ToDoList-1.0-SNAPSHOT.jar db migrate .\src\config\todo-list.yml
+```
+
 use the following command line arguments
 ```
 server .\src\config\todo-list.yml
