@@ -5,6 +5,7 @@ import graphql.annotations.annotationTypes.GraphQLName;
 import lombok.Data;
 
 import jakarta.persistence.*;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,8 +17,8 @@ import java.util.List;
 public class ToDo implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @GraphQLField
-    private String id;
+//    @GraphQLField
+    private long id;
     @GraphQLField
     private String title;
     @GraphQLField
@@ -25,15 +26,13 @@ public class ToDo implements Serializable {
 //    @GraphQLField
 //    private List<SubTask> subTasks;
 
-    public ToDo(String id, String title, String description, List<SubTask> subTasks) {
-        this.id = id;
+    public ToDo(String title, String description, List<SubTask> subTasks) {
         this.title = title;
         this.description = description;
 //        this.subTasks = subTasks;
     }
 
-    public ToDo(String id, String title, String description) {
-        this.id = id;
+    public ToDo(String title, String description) {
         this.title = title;
         this.description = description;
 //        this.subTasks = new ArrayList<SubTask>();

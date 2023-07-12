@@ -14,6 +14,6 @@ public class Query {
     ) {
         // create TODO
         System.out.println("retrieveToDo called");
-        return new ToDo("id", "Title", "Description");
+        return new ToDo("Title", "Description");
     }
 }

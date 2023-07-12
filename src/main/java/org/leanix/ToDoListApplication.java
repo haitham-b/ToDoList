@@ -29,7 +29,7 @@ public class ToDoListApplication extends Application<ToDoListConfig> {
         ToDoResource toDoResource = new UnitOfWorkAwareProxyFactory(hibernateBundle).create(ToDoResource.class, ToDoDAO.class, dao2);
         environment.jersey().register(toDoResource);
 
-        toDoResource.create(new ToDo("id", "Title", "Description"));
+        toDoResource.create(new ToDo("Title", "Description"));
         System.out.println(toDoResource.findAll());
 
         // TODO add toDoListComponent (graphQl?)
