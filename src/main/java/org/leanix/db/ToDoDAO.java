@@ -11,7 +11,7 @@ public class ToDoDAO extends AbstractDAO<ToDo> {
         super(sessionFactory);
     }
 
-    public ToDo findById(String id) {
+    public ToDo findById(long id) {
         return get(id);
     }
 
@@ -28,6 +28,6 @@ public class ToDoDAO extends AbstractDAO<ToDo> {
     }
 
     public void delete(String id) {
-        query("delete from TODO where id = $id");
+        query("delete from todo where id = $id");
     }
 }

@@ -19,4 +19,23 @@
             </column>
         </createTable>
     </changeSet>
+    <changeSet id="2" author="haitham">
+        <createTable tableName="subtask">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="title" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description" type="varchar(255)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="todo_id" type="bigint">
+                <constraints nullable="false"
+                             foreignKeyName="fk_todo_id"
+                             referencedTableName="todo"
+                             referencedColumnNames="id"/>
+            </column>
+        </createTable>
+    </changeSet>
 </databaseChangeLog>

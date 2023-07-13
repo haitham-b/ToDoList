@@ -22,4 +22,9 @@ public class ToDoResource {
     public List<ToDo> findAll() {
         return toDoDAO.findAll();
     }
+
+    @UnitOfWork
+    public ToDo findById(long id) {
+        return toDoDAO.findById(id);
+    }
 }

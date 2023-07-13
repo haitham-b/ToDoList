@@ -17,11 +17,20 @@ use the following command line arguments
 server .\src\config\todo-list.yml
 ```
 
+# To connect to the postgres image and list tables:
+```
+docker ps
+docker exec -it <image_id> bash
+psql -U pg-user db
+> \l  # to list schemas
+> \d  # to list tables
+```
+
 
 # Next Steps
 
 - review DAO and resources structure.
   - separate Entity and graphql model?
-- fix reading objects from db
+- fix retrieving todo objects with subtasks from db. (cascadeType?)
 - figure out how to "register" Graphql mutations and queries.
 - prettify README.md, and fix long "--migrations path" issue.
