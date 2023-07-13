@@ -1,3 +1,11 @@
+logging:
+  level: WARN
+  loggers:
+    "io.dropwizard": WARN
+    "org.hibernate.SQL":
+      level: WARN
+      additive: false
+
 database:
   # the name of your JDBC driver
   driverClass: org.postgresql.Driver

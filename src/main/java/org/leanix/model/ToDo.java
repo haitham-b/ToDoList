@@ -1,20 +1,15 @@
 package org.leanix.model;
 
 import graphql.annotations.annotationTypes.GraphQLField;
-import graphql.annotations.annotationTypes.GraphQLName;
-import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.*;
 
 import jakarta.persistence.*;
-import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
-@Data
+@Setter
+@Getter
 //@GraphQLName("toDo")
 @Entity
 @Table(name = "todo")
@@ -37,8 +32,7 @@ public class ToDo implements Serializable {
     private String description;
 
     @GraphQLField
-//    @OneToMany(mappedBy = "toDo", fetch = FetchType.EAGER, cascade = {CascadeType.ALL})
-    @OneToMany(mappedBy = "toDo", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "toDo", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Set<SubTask> subTasks;
 
     public ToDo(String title, String description, Set<SubTask> subTasks) {
@@ -51,5 +45,10 @@ public class ToDo implements Serializable {
         this.title = title;
         this.description = description;
         this.subTasks = Collections.emptySet();
+    }
+
+    @Override
+    public String toString() {
+        return String.format("{Id: %d, Title: %s, Description: %s, Subtasks: %s}", id, title, description, subTasks.toString());
     }
 }

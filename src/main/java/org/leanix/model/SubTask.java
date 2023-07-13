@@ -3,11 +3,10 @@ package org.leanix.model;
 import graphql.annotations.annotationTypes.GraphQLField;
 import graphql.annotations.annotationTypes.GraphQLName;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-@Data
+@Setter
+@Getter
 @GraphQLName("subTask")
 @Entity
 @Table(name = "subtask")
@@ -28,4 +27,9 @@ public class SubTask {
     @ManyToOne
     @JoinColumn(name = "todo_id", nullable = false)
     private ToDo toDo;
+
+    @Override
+    public String toString() {
+        return String.format("{Id: %d, Title: %s, Description: %s, todo_id: %d}", id, title, description, toDo.getId());
+    }
 }

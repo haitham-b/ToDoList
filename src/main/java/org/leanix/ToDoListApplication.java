@@ -14,6 +14,8 @@ import org.leanix.db.ToDoDAO;
 import org.leanix.graphql.Query;
 import org.leanix.model.SubTask;
 import org.leanix.model.ToDo;
+import org.leanix.resources.SubTaskResource;
+import org.leanix.resources.ToDoResource;
 
 import java.util.*;
 
@@ -36,9 +38,18 @@ public class ToDoListApplication extends Application<ToDoListConfig> {
         ToDoResource toDoResource = new UnitOfWorkAwareProxyFactory(hibernateBundle).create(ToDoResource.class, ToDoDAO.class, toDoDAO);
         SubTaskResource subTaskResource = new UnitOfWorkAwareProxyFactory(hibernateBundle).create(SubTaskResource.class, SubTaskDAO.class, subTaskDAO);
         environment.jersey().register(toDoResource);
-        persistToDoItem(subTaskResource, toDoResource);
+        ToDo todo = persistToDoItem(subTaskResource, toDoResource);
         System.out.println(">>>>>>>>>>>>>>> Find By Id");
-        System.out.println(toDoResource.findById(5));
+
+        System.out.println(toDoResource.findById(todo.getId()));
+
+        System.out.println(">>>>>>>>>>>>>>> Delete");
+//        toDoResource.delete(todo);
+        subTaskResource.delete(todo.getSubTasks().stream().findFirst().get());
+        System.out.println(">>>>>>>>>>>>>>> Delete finished");
+        System.out.println(">>>>>>>>>>>>>>> Attempt to findById after Delete");
+        System.out.println(toDoResource.findById(todo.getId()));
+
 //        System.out.println(">>>>>>>>>>>>>>> Find All");
 //        System.out.println(toDoResource.findAll());
 
@@ -48,7 +59,7 @@ public class ToDoListApplication extends Application<ToDoListConfig> {
 
     }
 
-    private void persistToDoItem(SubTaskResource subTaskResource, ToDoResource toDoResource) {
+    private ToDo persistToDoItem(SubTaskResource subTaskResource, ToDoResource toDoResource) {
         SubTask subTask = new SubTask();
         subTask.setDescription("Description");
         subTask.setTitle("Title");
@@ -57,9 +68,10 @@ public class ToDoListApplication extends Application<ToDoListConfig> {
         ToDo todo = new ToDo("Title", "Description");
 //        subTask.setToDo(todo);
         todo.setSubTasks(subTasks);
-        toDoResource.create(todo);
         subTask.setToDo(todo);
+        toDoResource.create(todo);
         subTaskResource.create(subTask);
+        return todo;
     }
 
     @Override

@@ -1,4 +1,4 @@
-package org.leanix;
+package org.leanix.resources;
 
 import io.dropwizard.hibernate.UnitOfWork;
 import org.leanix.db.SubTaskDAO;
@@ -26,5 +26,10 @@ public class SubTaskResource {
     @UnitOfWork
     public SubTask findById(long id) {
         return subTaskDAO.findById(id);
+    }
+
+    @UnitOfWork
+    public void delete(SubTask subTask) {
+        subTaskDAO.delete(subTask);
     }
 }

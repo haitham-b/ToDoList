@@ -1,4 +1,4 @@
-package org.leanix;
+package org.leanix.resources;
 
 import io.dropwizard.hibernate.UnitOfWork;
 import org.leanix.db.ToDoDAO;
@@ -26,5 +26,10 @@ public class ToDoResource {
     @UnitOfWork
     public ToDo findById(long id) {
         return toDoDAO.findById(id);
+    }
+
+    @UnitOfWork
+    public void delete(ToDo toDo) {
+        toDoDAO.delete(toDo);
     }
 }

@@ -27,7 +27,7 @@ public class ToDoDAO extends AbstractDAO<ToDo> {
         return list(namedTypedQuery("org.leanix.model.ToDo.findAll"));
     }
 
-    public void delete(String id) {
-        query("delete from todo where id = $id");
+    public void delete(ToDo toDo) {
+        currentSession().delete(toDo);
     }
 }

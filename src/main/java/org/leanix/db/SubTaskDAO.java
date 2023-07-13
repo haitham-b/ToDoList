@@ -3,6 +3,7 @@ package org.leanix.db;
 import io.dropwizard.hibernate.AbstractDAO;
 import org.hibernate.SessionFactory;
 import org.leanix.model.SubTask;
+import org.leanix.model.ToDo;
 
 import java.util.List;
 
@@ -27,7 +28,7 @@ public class SubTaskDAO extends AbstractDAO<SubTask> {
         return list(namedTypedQuery("org.leanix.model.SubTask.findAll"));
     }
 
-    public void delete(String id) {
-        query("delete from subtask where id = $id");
+    public void delete(SubTask subTask) {
+        currentSession().delete(subTask);
     }
 }
