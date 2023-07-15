@@ -1,0 +1,36 @@
+schema {
+    query: Query
+    mutation: Mutation
+}
+
+input ToDoInput {
+    title: String!
+    description: String
+    subTasks : [SubTaskInput]
+}
+
+input SubTaskInput {
+    title: String!
+    description: String
+}
+
+type ToDo {
+    id: ID!
+    title: String!
+    description: String
+    subTasks : [SubTask]
+}
+
+type SubTask {
+    id: ID!
+    title: String!
+    description: String
+}
+
+type Query {
+    retrieveToDo(id:ID!): ToDo
+}
+
+type Mutation {
+    createToDo(toDoInput:ToDoInput!): Boolean
+}

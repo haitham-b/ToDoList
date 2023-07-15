@@ -1,6 +1,8 @@
 package org.leanix.model;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import graphql.annotations.annotationTypes.GraphQLField;
+import graphql.annotations.annotationTypes.GraphQLName;
 import lombok.*;
 
 import jakarta.persistence.*;
@@ -35,12 +37,14 @@ public class ToDo implements Serializable {
     @OneToMany(mappedBy = "toDo", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Set<SubTask> subTasks;
 
+    @JsonCreator
     public ToDo(String title, String description, Set<SubTask> subTasks) {
         this.title = title;
         this.description = description;
         this.subTasks = subTasks;
     }
 
+    @JsonCreator
     public ToDo(String title, String description) {
         this.title = title;
         this.description = description;

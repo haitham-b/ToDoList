@@ -10,7 +10,7 @@ import javax.validation.constraints.NotNull;
 public class Query {
     @GraphQLField
     public ToDo retrieveToDo(
-            @NotNull @GraphQLName("id") String id
+            @NotNull @GraphQLName("id") long id
     ) {
         // create TODO
         System.out.println("retrieveToDo called");

@@ -7,7 +7,7 @@ import lombok.*;
 
 @Setter
 @Getter
-@GraphQLName("subTask")
+//@GraphQLName("subTask")
 @Entity
 @Table(name = "subtask")
 @AllArgsConstructor
@@ -15,13 +15,13 @@ import lombok.*;
 public class SubTask {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @GraphQLField
+//    @GraphQLField
     private long id;
 
-    @GraphQLField
+//    @GraphQLField
     private String title;
 
-    @GraphQLField
+//    @GraphQLField
     private String description;
 
     @ManyToOne
