@@ -29,6 +29,7 @@ type SubTask {
 
 type Query {
     retrieveToDo(id:ID!): ToDo
+    retrieveSubTask(id:ID!): SubTask
 }
 
 type Mutation {

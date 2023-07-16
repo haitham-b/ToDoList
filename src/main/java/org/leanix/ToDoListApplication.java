@@ -2,9 +2,7 @@ package org.leanix;
 
 import com.smoketurner.dropwizard.graphql.GraphQLBundle;
 import com.smoketurner.dropwizard.graphql.GraphQLFactory;
-import graphql.scalars.ExtendedScalars;
 import graphql.schema.idl.RuntimeWiring;
-import io.dropwizard.assets.AssetsBundle;
 import io.dropwizard.core.Application;
 import io.dropwizard.core.setup.Bootstrap;
 import io.dropwizard.core.setup.Environment;
@@ -19,17 +17,19 @@ import jakarta.servlet.FilterRegistration;
 import org.eclipse.jetty.servlets.CrossOriginFilter;
 import org.leanix.db.SubTaskDAO;
 import org.leanix.db.ToDoDAO;
-import org.leanix.graphql.Query;
+import org.leanix.graphql.config.SubTaskDataFetcher;
 import org.leanix.model.SubTask;
 import org.leanix.model.ToDo;
 import org.leanix.resources.SubTaskResource;
-import org.leanix.model.ToDoListDataFetcher;
+import org.leanix.graphql.config.ToDoDataFetcher;
 import org.leanix.resources.ToDoResource;
 
 import java.util.*;
 
 
 public class ToDoListApplication extends Application<ToDoListConfig> {
+    private static ToDoDAO toDoDAO;
+    private static SubTaskDAO subTaskDAO;
 
     public static void main(String[] args) throws Exception {
         new ToDoListApplication().run(args);
@@ -47,8 +47,11 @@ public class ToDoListApplication extends Application<ToDoListConfig> {
 //        ToDoDAO dao = new ToDoDAO(hibernateBundle.getSessionFactory());
 //        environment.jersey().register(dao);
 
-        ToDoDAO toDoDAO = new ToDoDAO(hibernateBundle.getSessionFactory());
-        SubTaskDAO subTaskDAO = new SubTaskDAO(hibernateBundle.getSessionFactory());
+
+        toDoDAO = new ToDoDAO(hibernateBundle.getSessionFactory());
+        subTaskDAO = new SubTaskDAO(hibernateBundle.getSessionFactory());
+//        ToDoDAO toDoDAO = new ToDoDAO(hibernateBundle.getSessionFactory());
+//        SubTaskDAO subTaskDAO = new SubTaskDAO(hibernateBundle.getSessionFactory());
 
         ToDoResource toDoResource = new UnitOfWorkAwareProxyFactory(hibernateBundle).create(ToDoResource.class, ToDoDAO.class, toDoDAO);
         SubTaskResource subTaskResource = new UnitOfWorkAwareProxyFactory(hibernateBundle).create(SubTaskResource.class, SubTaskDAO.class, subTaskDAO);
@@ -112,7 +115,7 @@ public class ToDoListApplication extends Application<ToDoListConfig> {
                         final GraphQLFactory factory = configuration.getGraphQLFactory();
                         // the RuntimeWiring must be configured prior to the run()
                         // methods being called so the schema is connected properly.
-                        factory.setRuntimeWiring(buildWiring(configuration));
+                        factory.setRuntimeWiring(buildWiring(configuration, toDoDAO, subTaskDAO));
                         return factory;
                     }
                 };
@@ -122,14 +125,17 @@ public class ToDoListApplication extends Application<ToDoListConfig> {
         bootstrap.addBundle(migrationBundle);
     }
 
-    private static RuntimeWiring buildWiring(ToDoListConfig configuration) {
+    private static RuntimeWiring buildWiring(ToDoListConfig configuration, ToDoDAO toDoDAO, SubTaskDAO subTaskDAO) {
 
-        final ToDoListDataFetcher fetcher = new ToDoListDataFetcher();
+        ToDoDataFetcher toDoFetcher = new ToDoDataFetcher(toDoDAO);
+        SubTaskDataFetcher subTaskFetcher = new SubTaskDataFetcher(subTaskDAO);
 
         final RuntimeWiring wiring =
                 RuntimeWiring.newRuntimeWiring()
-                        .type("Query", typeWiring -> typeWiring.dataFetcher("todo", fetcher))
-                        .scalar(ExtendedScalars.GraphQLLong)
+                        .type("Query", typeWiring -> typeWiring
+                                .dataFetcher("retrieveToDo", toDoFetcher)
+                                .dataFetcher("retrieveSubTask", subTaskFetcher))
+//                        .type("Mutation", typeWiring -> typeWiring.dataFetcher("createToDo", toDoFetcher))
                         .build();
 
         return wiring;
