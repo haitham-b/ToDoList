@@ -29,11 +29,16 @@ psql -U pg-user db
 
 # Next Steps
 
-- fix issue with null toDoDAO
+- fix issue "No session currently bound to execution context"
   ```
-  ! java.lang.NullPointerException: Cannot invoke "org.leanix.db.ToDoDAO.findById(long)" because "this.toDoDAO" is null
-  ! at org.leanix.graphql.config.ToDoDataFetcher.get(ToDoDataFetcher.java:19)
-  ! at org.leanix.graphql.config.ToDoDataFetcher.get(ToDoDataFetcher.java:9)
+  ! org.hibernate.HibernateException: No session currently bound to execution context
+  ! at org.hibernate.context.internal.ManagedSessionContext.currentSession(ManagedSessionContext.java:58)
+  ! at org.hibernate.internal.SessionFactoryImpl.getCurrentSession(SessionFactoryImpl.java:514)
+  ! at io.dropwizard.hibernate.AbstractDAO.currentSession(AbstractDAO.java:42)
+  ! at io.dropwizard.hibernate.AbstractDAO.get(AbstractDAO.java:170)
+  ! at org.leanix.db.ToDoDAO.findById(ToDoDAO.java:15)
+  ! at org.leanix.graphql.config.ToDoDataFetcher.get(ToDoDataFetcher.java:21)
+  ! at org.leanix.graphql.config.ToDoDataFetcher.get(ToDoDataFetcher.java:10)
   ! at graphql.execution.ExecutionStrategy.invokeDataFetcher(ExecutionStrategy.java:309)
   ! at graphql.execution.ExecutionStrategy.fetchField(ExecutionStrategy.java:286)
   ! at graphql.execution.ExecutionStrategy.resolveFieldWithInfo(ExecutionStrategy.java:212)
@@ -53,30 +58,6 @@ psql -U pg-user db
   ! at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)
   ! at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
   ! at java.base/java.lang.Thread.run(Thread.java:833)
-  ERROR [2023-07-16 11:48:29,915] graphql.kickstart.execution.error.DefaultGraphQLErrorHandler: Error executing query Exception while fetching data (/retrieveToDo) : Cannot invoke "org.leanix.db.ToDoDAO.findById(long)" because "this.toDoDAO" is null
-  ! java.lang.NullPointerException: Cannot invoke "org.leanix.db.ToDoDAO.findById(long)" because "this.toDoDAO" is null
-  ! at org.leanix.graphql.config.ToDoDataFetcher.get(ToDoDataFetcher.java:19)
-  ! at org.leanix.graphql.config.ToDoDataFetcher.get(ToDoDataFetcher.java:9)
-  ! at graphql.execution.ExecutionStrategy.invokeDataFetcher(ExecutionStrategy.java:309)
-  ! at graphql.execution.ExecutionStrategy.fetchField(ExecutionStrategy.java:286)
-  ! at graphql.execution.ExecutionStrategy.resolveFieldWithInfo(ExecutionStrategy.java:212)
-  ! at graphql.execution.AsyncExecutionStrategy.execute(AsyncExecutionStrategy.java:55)
-  ! at graphql.execution.Execution.executeOperation(Execution.java:161)
-  ! at graphql.execution.Execution.execute(Execution.java:104)
-  ! at graphql.GraphQL.execute(GraphQL.java:557)
-  ! at graphql.GraphQL.lambda$parseValidateAndExecute$11(GraphQL.java:476)
-  ! at java.base/java.util.concurrent.CompletableFuture.uniComposeStage(CompletableFuture.java:1187)
-  ! at java.base/java.util.concurrent.CompletableFuture.thenCompose(CompletableFuture.java:2309)
-  ! at graphql.GraphQL.parseValidateAndExecute(GraphQL.java:471)
-  ! at graphql.GraphQL.executeAsync(GraphQL.java:439)
-  ! at graphql.kickstart.execution.GraphQLInvoker.executeAsync(GraphQLInvoker.java:37)
-  ! at graphql.kickstart.execution.GraphQLInvoker.execute(GraphQLInvoker.java:28)
-  ! at graphql.kickstart.servlet.HttpRequestInvokerImpl.invoke(HttpRequestInvokerImpl.java:200)
-  ! at graphql.kickstart.servlet.HttpRequestInvokerImpl.lambda$invokeAndHandleAsync$2(HttpRequestInvokerImpl.java:84)
-  ! at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)
-  ! at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
-  ! at java.base/java.lang.Thread.run(Thread.java:833)
-  [0:0:0:0:0:0:0:1] - - [16/Jul/2023:11:48:29 +0000] "POST /graphql HTTP/1.1" 200 327 "-" "PostmanRuntime/7.32.3" 114
   ```
 
 - fix issue with findAll() query
