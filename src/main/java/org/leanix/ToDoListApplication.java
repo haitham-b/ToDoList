@@ -23,11 +23,14 @@ import org.leanix.model.ToDo;
 import org.leanix.resources.SubTaskResource;
 import org.leanix.graphql.config.ToDoDataFetcher;
 import org.leanix.resources.ToDoResource;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.*;
 
-
 public class ToDoListApplication extends Application<ToDoListConfig> {
+    private final Logger log = LoggerFactory.getLogger("toDoListApplicationLogger");
+
     private static ToDoDAO toDoDAO;
     private static SubTaskDAO subTaskDAO;
 
@@ -37,7 +40,7 @@ public class ToDoListApplication extends Application<ToDoListConfig> {
 
     @Override
     public void run(ToDoListConfig configuration, Environment environment) throws Exception {
-        System.out.println("inside ToDoListApplication.run()");
+        log.info("inside ToDoListApplication.run()");
 
         // Prepare DAOs
         toDoDAO = new ToDoDAO(hibernateBundle.getSessionFactory());
@@ -66,17 +69,17 @@ public class ToDoListApplication extends Application<ToDoListConfig> {
 
         // Prepare 1 entry of ToDoList
         ToDo todo = persistToDoItem(subTaskResource, toDoResource);
-        System.out.println(">>>>>>>>>>>>>>> Find By Id");
-        System.out.println(toDoResource.findById(todo.getId()));
+        log.warn(">>>>>>>>>>>>>>> Find By Id");
+        log.warn(toDoResource.findById(todo.getId()).toString());
 
-//        System.out.println(">>>>>>>>>>>>>>> Delete");
+//        log.warn(">>>>>>>>>>>>>>> Delete");
 //        toDoResource.delete(todo);
 //        subTaskResource.delete(todo.getSubTasks().stream().findFirst().get());
-//        System.out.println(">>>>>>>>>>>>>>> Delete finished");
-//        System.out.println(">>>>>>>>>>>>>>> Attempt to findById after Delete");
-//        System.out.println(toDoResource.findById(todo.getId()));
-//        System.out.println(">>>>>>>>>>>>>>> Find All");
-//        System.out.println(toDoResource.findAll());
+//        log.warn(">>>>>>>>>>>>>>> Delete finished");
+//        log.warn(">>>>>>>>>>>>>>> Attempt to findById after Delete");
+//        log.warn(toDoResource.findById(todo.getId()));
+//        log.warn(">>>>>>>>>>>>>>> Find All");
+//        log.warn(toDoResource.findAll());
     }
 
     private ToDo persistToDoItem(SubTaskResource subTaskResource, ToDoResource toDoResource) {

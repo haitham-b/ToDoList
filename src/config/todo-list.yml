@@ -19,6 +19,9 @@ logging:
   level: WARN
   loggers:
     "com.smoketurner.dropwizard.graphql": DEBUG
+    "toDoListApplicationLogger": INFO
+    "mutationLogger": INFO
+    "queryLogger": INFO
     "io.dropwizard": DEBUG
     "org.hibernate.SQL":
       level: WARN

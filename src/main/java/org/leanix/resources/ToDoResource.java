@@ -13,22 +13,22 @@ public class ToDoResource {
         this.toDoDAO = deviceDAO;
     }
 
-//    @UnitOfWork
+    @UnitOfWork
     public ToDo create(ToDo toDoInput) {
         return toDoDAO.create(toDoInput);
     }
 
-//    @UnitOfWork
+    @UnitOfWork
     public List<ToDo> findAll() {
         return toDoDAO.findAll();
     }
 
-//    @UnitOfWork
+    @UnitOfWork
     public ToDo findById(long id) {
         return toDoDAO.findById(id);
     }
 
-//    @UnitOfWork
+    @UnitOfWork
     public void delete(ToDo toDo) {
         toDoDAO.delete(toDo);
     }

@@ -81,4 +81,5 @@ psql -U pg-user db
 	at io.dropwizard.core.Application.run(Application.java:94)
 	at org.leanix.ToDoListApplication.main(ToDoListApplication.java:24)
   ```
+- introduce ToDoInput for the creation of ToDo items.
 - prettify README.md, and fix long "--migrations path" issue.
